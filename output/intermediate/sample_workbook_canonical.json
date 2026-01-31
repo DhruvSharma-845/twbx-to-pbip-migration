@@ -1,0 +1,331 @@
+{
+  "name": "sample_workbook",
+  "source_file": "sample_workbook",
+  "dataset": {
+    "name": "sample_workbook_Model",
+    "tables": [
+      {
+        "name": "Default",
+        "display_name": "Default",
+        "columns": [
+          {
+            "name": "Order_Date",
+            "display_name": "Order Date",
+            "data_type": "date"
+          },
+          {
+            "name": "Order_ID",
+            "display_name": "Order ID",
+            "data_type": "string"
+          },
+          {
+            "name": "Product_Name",
+            "display_name": "Product Name",
+            "data_type": "string"
+          },
+          {
+            "name": "Category",
+            "display_name": "Category",
+            "data_type": "string"
+          },
+          {
+            "name": "Region",
+            "display_name": "Region",
+            "data_type": "string"
+          },
+          {
+            "name": "Quantity",
+            "display_name": "Quantity",
+            "data_type": "int64"
+          },
+          {
+            "name": "Profit",
+            "display_name": "Profit",
+            "data_type": "double"
+          },
+          {
+            "name": "Customer_Name",
+            "display_name": "Customer Name",
+            "data_type": "string"
+          }
+        ],
+        "measures": [
+          {
+            "name": "Calculation_TotalSales",
+            "display_name": "Total Sales",
+            "expression": "SUM([Sales])",
+            "dax_expression": "SUM('Default'[Sales])",
+            "confidence": "high",
+            "aggregation": "sum",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": null
+          },
+          {
+            "name": "Calculation_TotalProfit",
+            "display_name": "Total Profit",
+            "expression": "SUM([Profit])",
+            "dax_expression": "SUM('Default'[Profit])",
+            "confidence": "high",
+            "aggregation": "sum",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": null
+          },
+          {
+            "name": "Calculation_ProfitRatio",
+            "display_name": "Profit Ratio",
+            "expression": "SUM([Profit]) / SUM([Sales])",
+            "dax_expression": "SUM('Default'[Profit]) / SUM('Default'[Sales])",
+            "confidence": "high",
+            "aggregation": "sum",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": null
+          },
+          {
+            "name": "Calculation_AvgOrderValue",
+            "display_name": "Average Order Value",
+            "expression": "AVG([Sales])",
+            "dax_expression": "AVERAGE('Default'[Sales])",
+            "confidence": "high",
+            "aggregation": "average",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": null
+          },
+          {
+            "name": "Calculation_OrderCount",
+            "display_name": "Order Count",
+            "expression": "COUNTD([Order_ID])",
+            "dax_expression": "DISTINCTCOUNT('Default'[Order_ID])",
+            "confidence": "high",
+            "aggregation": "countd",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": null
+          },
+          {
+            "name": "Calculation_RunningTotal",
+            "display_name": "Running Total Sales",
+            "expression": "RUNNING_SUM(SUM([Sales]))",
+            "dax_expression": null,
+            "confidence": "unsupported",
+            "aggregation": "sum",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": "Table Calculation - RUNNING_SUM"
+          },
+          {
+            "name": "Calculation_LOD",
+            "display_name": "Regional Sales Fixed",
+            "expression": "{FIXED [Region] : SUM([Sales])}",
+            "dax_expression": null,
+            "confidence": "unsupported",
+            "aggregation": "sum",
+            "format_string": null,
+            "description": null,
+            "unsupported_reason": "LOD Expression (FIXED) - Not supported in DAX"
+          }
+        ]
+      },
+      {
+        "name": "leaf",
+        "display_name": "leaf",
+        "columns": [
+          {
+            "name": "Order_Date",
+            "display_name": "Order Date",
+            "data_type": "date"
+          },
+          {
+            "name": "Order_ID",
+            "display_name": "Order ID",
+            "data_type": "string"
+          },
+          {
+            "name": "Product_Name",
+            "display_name": "Product Name",
+            "data_type": "string"
+          },
+          {
+            "name": "Category",
+            "display_name": "Category",
+            "data_type": "string"
+          },
+          {
+            "name": "Region",
+            "display_name": "Region",
+            "data_type": "string"
+          },
+          {
+            "name": "Sales",
+            "display_name": "Sales",
+            "data_type": "double"
+          },
+          {
+            "name": "Quantity",
+            "display_name": "Quantity",
+            "data_type": "int64"
+          },
+          {
+            "name": "Profit",
+            "display_name": "Profit",
+            "data_type": "double"
+          },
+          {
+            "name": "Customer_Name",
+            "display_name": "Customer Name",
+            "data_type": "string"
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "Data",
+        "display_name": "Data",
+        "columns": [
+          {
+            "name": "Value",
+            "display_name": "Value",
+            "data_type": "string"
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "Data",
+        "display_name": "Data",
+        "columns": [
+          {
+            "name": "Value",
+            "display_name": "Value",
+            "data_type": "string"
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "Data",
+        "display_name": "Data",
+        "columns": [
+          {
+            "name": "Value",
+            "display_name": "Value",
+            "data_type": "string"
+          }
+        ],
+        "measures": []
+      },
+      {
+        "name": "Data",
+        "display_name": "Data",
+        "columns": [
+          {
+            "name": "Value",
+            "display_name": "Value",
+            "data_type": "string"
+          }
+        ],
+        "measures": []
+      }
+    ]
+  },
+  "pages": [
+    {
+      "id": "6b09bdc7743396cd30e8",
+      "name": "Sales_Dashboard",
+      "display_name": "Sales Dashboard",
+      "width": 1200,
+      "height": 800,
+      "visuals": [
+        {
+          "id": "3b6e2723684e5f738e6f05ca56b7f61c",
+          "name": "Sales by Category",
+          "type": "clustered_bar",
+          "x": 0,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "confidence": "high",
+          "unsupported_features": []
+        },
+        {
+          "id": "6e81bc45a817537ba101c39ccf85235b",
+          "name": "Sales Trend",
+          "type": "line_chart",
+          "x": 640,
+          "y": 0,
+          "width": 640,
+          "height": 360,
+          "confidence": "high",
+          "unsupported_features": []
+        },
+        {
+          "id": "87834106e86850db85f94fa944835484",
+          "name": "Regional Performance",
+          "type": "pie_chart",
+          "x": 0,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "confidence": "high",
+          "unsupported_features": []
+        },
+        {
+          "id": "6ec7d27a167654b59b4d9545c7b6b2fe",
+          "name": "Sales Details",
+          "type": "table",
+          "x": 640,
+          "y": 360,
+          "width": 640,
+          "height": 360,
+          "confidence": "high",
+          "unsupported_features": []
+        }
+      ]
+    },
+    {
+      "id": "a573d92b77d430af7e42",
+      "name": "Executive_Summary",
+      "display_name": "Executive Summary",
+      "width": 1000,
+      "height": 600,
+      "visuals": [
+        {
+          "id": "3b6e2723684e5f738e6f05ca56b7f61c",
+          "name": "Sales by Category",
+          "type": "clustered_bar",
+          "x": 0,
+          "y": 0,
+          "width": 533,
+          "height": 270,
+          "confidence": "high",
+          "unsupported_features": []
+        },
+        {
+          "id": "87834106e86850db85f94fa944835484",
+          "name": "Regional Performance",
+          "type": "pie_chart",
+          "x": 533,
+          "y": 0,
+          "width": 533,
+          "height": 270,
+          "confidence": "high",
+          "unsupported_features": []
+        }
+      ]
+    }
+  ],
+  "migration_warnings": [],
+  "unsupported_features": {
+    "lod_expressions": [
+      "Calculation_LOD"
+    ],
+    "table_calculations": [
+      "Calculation_RunningTotal"
+    ],
+    "dual_axis_charts": [],
+    "other": []
+  }
+}

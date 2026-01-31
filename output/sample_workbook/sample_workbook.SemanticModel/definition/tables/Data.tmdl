@@ -1,0 +1,13 @@
+table Data
+	lineageTag: f6068daa-29db-b05a-7ead-1e3b5a48bbee
+
+	column Value
+		dataType: string
+		lineageTag: afb758a1-3048-e16b-c9cf-f02fab731cd7
+		summarizeBy: none
+		sourceColumn: Value
+
+		annotation SummarizationSetBy = Automatic
+
+	annotation PBI_MigrationSource = "Tableau"
+	annotation PBI_PlaceholderTable = true
