@@ -275,30 +275,22 @@ ref cultureInfo {self.model.culture}
                 ''
             ])
         
-        # Add partition with proper M query format for TMDL
-        lines.append(f'\tpartition \'{table.name}\' = m')
-        lines.append(f'\t\tmode: import')
-        lines.append(f'\t\tsource')
-        lines.append(f'\t\t\tlet')
-        lines.append(f'\t\t\t\tSource = #table(')
-        
-        # Build column type table
+        # Add partition with M query - use triple-quoted string format for TMDL
+        # Build column type definitions for M query
         col_defs = []
         for col in table.columns:
             m_type = self._data_type_to_m_type(col.data_type)
-            col_defs.append(f'\t\t\t\t\t{{"{col.name}", {m_type}}}')
+            col_defs.append(f'{{"{col.name}", {m_type}}}')
         
-        if col_defs:
-            lines.append(f'\t\t\t\t\t{{')
-            lines.append(',\n'.join(col_defs))
-            lines.append(f'\t\t\t\t\t}},')
-        else:
-            lines.append(f'\t\t\t\t\t{{{{"Value", type text}}}},')
+        if not col_defs:
+            col_defs = ['{"Value", type text}']
         
-        lines.append(f'\t\t\t\t\t{{}}')
-        lines.append(f'\t\t\t\t)')
-        lines.append(f'\t\t\tin')
-        lines.append(f'\t\t\t\tSource')
+        type_list = ", ".join(col_defs)
+        
+        lines.append(f'\tpartition \'{table.name}\' = m')
+        lines.append(f'\t\tmode: import')
+        lines.append(f'\t\tsource =')
+        lines.append(f'\t\t\t\tlet Source = #table({{{type_list}}}, {{}}) in Source')
         lines.append('')
         
         # Add annotations

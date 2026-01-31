@@ -11,16 +11,8 @@ table 'Data'
 
 	partition 'Data' = m
 		mode: import
-		source
-			let
-				Source = #table(
-					{
-					{"Value", type text}
-					},
-					{}
-				)
-			in
-				Source
+		source =
+				let Source = #table({{"Value", type text}}, {}) in Source
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table

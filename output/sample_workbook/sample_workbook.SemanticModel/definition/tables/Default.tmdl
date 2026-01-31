@@ -82,23 +82,8 @@ table 'Default'
 
 	partition 'Default' = m
 		mode: import
-		source
-			let
-				Source = #table(
-					{
-					{"Order_Date", type datetime},
-					{"Order_ID", type text},
-					{"Product_Name", type text},
-					{"Category", type text},
-					{"Region", type text},
-					{"Quantity", Int64.Type},
-					{"Profit", type number},
-					{"Customer_Name", type text}
-					},
-					{}
-				)
-			in
-				Source
+		source =
+				let Source = #table({{"Order_Date", type datetime}, {"Order_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Region", type text}, {"Quantity", Int64.Type}, {"Profit", type number}, {"Customer_Name", type text}}, {}) in Source
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table
