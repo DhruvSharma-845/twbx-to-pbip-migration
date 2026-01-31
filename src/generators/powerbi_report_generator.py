@@ -395,34 +395,110 @@ class PowerBIReportGenerator:
     
     def _generate_page_folders(self):
         """Generate individual page folders with page.json and visuals."""
-        for page in self.report.pages:
+        for idx, page in enumerate(self.report.pages):
             page_folder = os.path.join(self.output_path, 'definition', 'pages', page.name)
-            visuals_folder = os.path.join(page_folder, 'visuals')
             
             os.makedirs(page_folder, exist_ok=True)
-            os.makedirs(visuals_folder, exist_ok=True)
             
-            # Generate page.json
-            self._generate_page_json(page, page_folder)
-            
-            # Generate visual files
-            for visual in page.visuals:
-                self._generate_visual_json(visual, page, visuals_folder)
+            # Generate page.json with embedded visuals (older compatible format)
+            self._generate_page_json_with_visuals(page, page_folder, idx)
     
     def _generate_page_json(self, page: PBIPage, page_folder: str):
         """Generate page.json for a single page."""
+        # Use older format without schema for compatibility
         page_config = {
-            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
             "name": page.name,
             "displayName": page.display_name,
-            "displayOption": page.display_option,
+            "displayOption": 1,  # FitToPage as integer
             "height": page.height,
-            "width": page.width
+            "width": page.width,
+            "config": json.dumps({
+                "name": page.name,
+                "displayName": page.display_name,
+                "displayOption": "FitToPage",
+                "layoutWidth": page.width,
+                "layoutHeight": page.height
+            }),
+            "ordinal": 0
         }
         
         page_path = os.path.join(page_folder, 'page.json')
         with open(page_path, 'w', encoding='utf-8') as f:
             json.dump(page_config, f, indent=2)
+    
+    def _generate_page_json_with_visuals(self, page: PBIPage, page_folder: str, page_idx: int):
+        """Generate page.json with embedded visual containers (PBIP Developer Mode format)."""
+        # Build visual containers
+        visual_containers = []
+        for i, visual in enumerate(page.visuals):
+            container = self._build_visual_container(visual, i)
+            visual_containers.append(container)
+        
+        # Page config with embedded visuals - using schema 2.0.0 for compatibility
+        page_config = {
+            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+            "name": page.name,
+            "displayName": page.display_name,
+            "displayOption": "FitToPage",
+            "height": page.height,
+            "width": page.width,
+            "visualContainers": visual_containers
+        }
+        
+        page_path = os.path.join(page_folder, 'page.json')
+        with open(page_path, 'w', encoding='utf-8') as f:
+            json.dump(page_config, f, indent=2)
+    
+    def _build_visual_container(self, visual: PBIVisualConfig, index: int) -> Dict[str, Any]:
+        """Build a visual container object for embedding in page.json."""
+        # Build single visual config
+        single_visual = {
+            "visualType": visual.visual_type,
+            "projections": self._build_projections(visual),
+            "objects": {
+                "title": [
+                    {
+                        "properties": {
+                            "show": {"expr": {"Literal": {"Value": "true"}}},
+                            "text": {"expr": {"Literal": {"Value": f"'{visual.title or 'Visual'}'"}}}
+                        }
+                    }
+                ]
+            }
+        }
+        
+        # Add prototypeQuery if we have projections
+        if visual.data_roles:
+            single_visual["prototypeQuery"] = self._build_prototype_query(visual)
+        
+        container = {
+            "x": visual.x,
+            "y": visual.y,
+            "z": index,
+            "width": visual.width,
+            "height": visual.height,
+            "config": json.dumps({
+                "name": visual.name,
+                "layouts": [
+                    {
+                        "id": 0,
+                        "position": {
+                            "x": visual.x,
+                            "y": visual.y,
+                            "z": index,
+                            "width": visual.width,
+                            "height": visual.height,
+                            "tabOrder": index
+                        }
+                    }
+                ],
+                "singleVisual": single_visual
+            }),
+            "filters": "[]",
+            "tabOrder": index
+        }
+        
+        return container
     
     def _generate_visual_json(self, visual: PBIVisualConfig, page: PBIPage, visuals_folder: str):
         """Generate visual.json for a single visual."""
@@ -430,45 +506,58 @@ class PowerBIReportGenerator:
         visual_folder = os.path.join(visuals_folder, visual_id)
         os.makedirs(visual_folder, exist_ok=True)
         
-        # Build visual configuration
+        # Build visual configuration - using older compatible format without schema
         visual_config = {
-            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visual/1.2.0/schema.json",
             "name": visual_id,
-            "visual": {
-                "visualType": visual.visual_type,
-                "query": self._build_visual_query(visual),
-                "objects": self._build_visual_objects(visual),
-                "visualContainerObjects": {
-                    "title": [
-                        {
-                            "properties": {
-                                "show": {
-                                    "expr": {
-                                        "Literal": {
-                                            "Value": "true"
-                                        }
-                                    }
-                                },
-                                "text": {
-                                    "expr": {
-                                        "Literal": {
-                                            "Value": f"'{visual.title or 'Visual'}'"
-                                        }
-                                    }
+            "visualType": visual.visual_type,
+            "x": visual.x,
+            "y": visual.y,
+            "z": 0,
+            "width": visual.width,
+            "height": visual.height,
+            "config": json.dumps({
+                "name": visual_id,
+                "layouts": [
+                    {
+                        "id": 0,
+                        "position": {
+                            "x": visual.x,
+                            "y": visual.y,
+                            "z": 0,
+                            "width": visual.width,
+                            "height": visual.height
+                        }
+                    }
+                ],
+                "singleVisual": {
+                    "visualType": visual.visual_type,
+                    "projections": self._build_projections(visual),
+                    "prototypeQuery": self._build_prototype_query(visual),
+                    "objects": {
+                        "title": [
+                            {
+                                "properties": {
+                                    "show": {"expr": {"Literal": {"Value": "true"}}},
+                                    "titleWrap": {"expr": {"Literal": {"Value": "true"}}},
+                                    "text": {"expr": {"Literal": {"Value": f"'{visual.title or 'Visual'}'"}}}
                                 }
                             }
-                        }
-                    ]
+                        ]
+                    },
+                    "vcObjects": {
+                        "title": [
+                            {
+                                "properties": {
+                                    "show": {"expr": {"Literal": {"Value": "true"}}},
+                                    "text": {"expr": {"Literal": {"Value": f"'{visual.title or 'Visual'}'"}}}
+                                }
+                            }
+                        ]
+                    }
                 }
-            },
-            "position": {
-                "x": visual.x,
-                "y": visual.y,
-                "width": visual.width,
-                "height": visual.height,
-                "z": 0,
-                "tabOrder": 0
-            }
+            }),
+            "filters": "[]",
+            "tabOrder": 0
         }
         
         visual_path = os.path.join(visual_folder, 'visual.json')
@@ -502,6 +591,71 @@ class PowerBIReportGenerator:
                 query["queryState"][role_name]["projections"].append(projection)
         
         return query
+    
+    def _build_projections(self, visual: PBIVisualConfig) -> Dict[str, Any]:
+        """Build projections for visual config."""
+        projections = {}
+        
+        for role_name, columns in visual.data_roles.items():
+            if columns:
+                projections[role_name] = [
+                    {"queryRef": col.get('Column', {}).get('Property', 'field')} 
+                    for col in columns
+                ]
+        
+        return projections
+    
+    def _build_prototype_query(self, visual: PBIVisualConfig) -> Dict[str, Any]:
+        """Build prototype query for visual."""
+        select_items = []
+        
+        for role_name, columns in visual.data_roles.items():
+            for col in columns:
+                col_info = col.get('Column', {})
+                entity = col_info.get('Expression', {}).get('SourceRef', {}).get('Entity', 'Data')
+                prop = col_info.get('Property', 'field')
+                
+                select_item = {
+                    "Column": {
+                        "Expression": {
+                            "SourceRef": {"Source": "d"}
+                        },
+                        "Property": prop
+                    },
+                    "Name": f"{entity}.{prop}"
+                }
+                
+                # Add aggregation if present
+                if col_info.get('Aggregation'):
+                    select_item = {
+                        "Aggregation": {
+                            "Expression": select_item["Column"],
+                            "Function": 0  # Sum
+                        },
+                        "Name": f"Sum({entity}.{prop})"
+                    }
+                
+                select_items.append(select_item)
+        
+        # Default if no items
+        if not select_items:
+            select_items = [
+                {
+                    "Column": {
+                        "Expression": {"SourceRef": {"Source": "d"}},
+                        "Property": "Value"
+                    },
+                    "Name": "Data.Value"
+                }
+            ]
+        
+        return {
+            "Version": 2,
+            "From": [
+                {"Name": "d", "Entity": "Data", "Type": 0}
+            ],
+            "Select": select_items
+        }
     
     def _build_visual_objects(self, visual: PBIVisualConfig) -> Dict[str, Any]:
         """Build visual objects (formatting properties)."""

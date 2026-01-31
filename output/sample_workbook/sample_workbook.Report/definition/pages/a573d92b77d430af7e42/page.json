@@ -4,5 +4,27 @@
   "displayName": "Executive Summary",
   "displayOption": "FitToPage",
   "height": 600,
-  "width": 1000
+  "width": 1000,
+  "visualContainers": [
+    {
+      "x": 0,
+      "y": 0,
+      "z": 0,
+      "width": 533,
+      "height": 270,
+      "config": "{\"name\": \"3b6e2723684e5f738e6f05ca56b7f61c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 0, \"y\": 0, \"z\": 0, \"width\": 533, \"height\": 270, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Sales\"}], \"Series\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Category\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Sales by Category'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Sales\"}, \"Name\": \"Default.Sales\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Category\"}, \"Name\": \"Default.Category\"}]}}}",
+      "filters": "[]",
+      "tabOrder": 0
+    },
+    {
+      "x": 533,
+      "y": 0,
+      "z": 1,
+      "width": 533,
+      "height": 270,
+      "config": "{\"name\": \"87834106e86850db85f94fa944835484\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 533, \"y\": 0, \"z\": 1, \"width\": 533, \"height\": 270, \"tabOrder\": 1}}], \"singleVisual\": {\"visualType\": \"pieChart\", \"projections\": {\"Category\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Region\"}], \"Y\": [{\"queryRef\": \"Sales\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Regional Performance'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Region\"}, \"Name\": \"Default.Region\"}, {\"Aggregation\": {\"Expression\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Sales\"}, \"Function\": 0}, \"Name\": \"Sum(Default.Sales)\"}]}}}",
+      "filters": "[]",
+      "tabOrder": 1
+    }
+  ]
 }
