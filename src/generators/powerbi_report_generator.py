@@ -449,22 +449,13 @@ class PowerBIReportGenerator:
             json.dump(page_config, f, indent=2)
     
     def _generate_simple_visual_json(self, visual: PBIVisualConfig, index: int, visuals_folder: str):
-        """Generate visual.json without schema declaration for compatibility."""
+        """Generate visual.json with compatible schema version."""
         visual_folder = os.path.join(visuals_folder, visual.name)
         os.makedirs(visual_folder, exist_ok=True)
         
-        # Build single visual config
-        single_visual = {
-            "visualType": visual.visual_type,
-            "projections": self._build_projections(visual)
-        }
-        
-        # Add prototypeQuery if we have projections
-        if visual.data_roles:
-            single_visual["prototypeQuery"] = self._build_prototype_query(visual)
-        
-        # Visual config without $schema for compatibility
+        # Visual config with schema version 1.0.0 for compatibility
         visual_config = {
+            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visual/1.0.0/schema.json",
             "name": visual.name,
             "position": {
                 "x": visual.x,

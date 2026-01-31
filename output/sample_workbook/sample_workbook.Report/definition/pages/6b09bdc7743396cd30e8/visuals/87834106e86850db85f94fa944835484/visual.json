@@ -1,4 +1,5 @@
 {
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visual/1.0.0/schema.json",
   "name": "87834106e86850db85f94fa944835484",
   "position": {
     "x": 0,
