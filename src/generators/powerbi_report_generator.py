@@ -394,20 +394,14 @@ class PowerBIReportGenerator:
             json.dump(pages_meta, f, indent=2)
     
     def _generate_page_folders(self):
-        """Generate individual page folders with page.json and visuals."""
+        """Generate individual page folders with page.json only (no separate visual files)."""
         for idx, page in enumerate(self.report.pages):
             page_folder = os.path.join(self.output_path, 'definition', 'pages', page.name)
-            visuals_folder = os.path.join(page_folder, 'visuals')
             
             os.makedirs(page_folder, exist_ok=True)
-            os.makedirs(visuals_folder, exist_ok=True)
             
-            # Generate simple page.json (matching sample format)
-            self._generate_simple_page_json(page, page_folder)
-            
-            # Generate visual files
-            for i, visual in enumerate(page.visuals):
-                self._generate_simple_visual_json(visual, i, visuals_folder)
+            # Generate page.json with embedded visuals (legacy compatible format)
+            self._generate_legacy_page_json(page, page_folder, idx)
     
     def _generate_page_json(self, page: PBIPage, page_folder: str):
         """Generate page.json for a single page."""
@@ -435,6 +429,22 @@ class PowerBIReportGenerator:
     def _generate_simple_page_json(self, page: PBIPage, page_folder: str):
         """Generate simple page.json matching sample PBIP format."""
         # Simple page config matching the sample format exactly
+        page_config = {
+            "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
+            "name": page.name,
+            "displayName": page.display_name,
+            "displayOption": "FitToPage",
+            "height": page.height,
+            "width": page.width
+        }
+        
+        page_path = os.path.join(page_folder, 'page.json')
+        with open(page_path, 'w', encoding='utf-8') as f:
+            json.dump(page_config, f, indent=2)
+    
+    def _generate_legacy_page_json(self, page: PBIPage, page_folder: str, page_idx: int):
+        """Generate page.json without visuals (empty page for compatibility)."""
+        # Use the exact same format as the sample PBIP - just basic page properties
         page_config = {
             "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.0.0/schema.json",
             "name": page.name,
