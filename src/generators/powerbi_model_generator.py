@@ -406,9 +406,14 @@ ref cultureInfo {self.model.culture}
         with open(local_path, 'w', encoding='utf-8') as f:
             json.dump(local_settings, f, indent=2)
         
-        # editorSettings.json
+        # editorSettings.json - must match Power BI expected format
         editor_settings = {
-            "tableGroup": {}
+            "version": "1.0",
+            "autodetectRelationships": True,
+            "parallelQueryLoading": True,
+            "typeDetectionEnabled": True,
+            "relationshipImportEnabled": True,
+            "shouldNotifyUserOfNameConflictResolution": True
         }
         editor_path = os.path.join(pbi_path, 'editorSettings.json')
         with open(editor_path, 'w', encoding='utf-8') as f:

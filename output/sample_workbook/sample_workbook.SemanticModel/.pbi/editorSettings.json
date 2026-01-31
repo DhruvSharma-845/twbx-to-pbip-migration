@@ -1,3 +1,8 @@
 {
-  "tableGroup": {}
+  "version": "1.0",
+  "autodetectRelationships": true,
+  "parallelQueryLoading": true,
+  "typeDetectionEnabled": true,
+  "relationshipImportEnabled": true,
+  "shouldNotifyUserOfNameConflictResolution": true
 }
