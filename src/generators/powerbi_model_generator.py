@@ -250,7 +250,7 @@ ref cultureInfo {self.model.culture}
             ''
         ]
         
-        # Add columns - for calculated table, use isNameInferredFromValue
+        # Add columns
         for col in table.columns:
             col_lineage = self._generate_lineage_tag(f"{table.name}_{col.name}")
             lines.extend([
@@ -258,8 +258,7 @@ ref cultureInfo {self.model.culture}
                 f'\t\tdataType: {col.data_type}',
                 f'\t\tlineageTag: {col_lineage}',
                 f'\t\tsummarizeBy: none',
-                f'\t\tisNameInferredFromValue',
-                f'\t\tsourceColumn: [{col.source_column or col.name}]',
+                f'\t\tsourceColumn: {col.source_column or col.name}',
                 '',
                 f'\t\tannotation SummarizationSetBy = Automatic',
                 ''

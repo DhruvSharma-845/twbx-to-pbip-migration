@@ -5,8 +5,7 @@ table 'leaf'
 		dataType: dateTime
 		lineageTag: 74f4ed7f-d556-057c-ad75-6b58daecc059
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Order_Date]
+		sourceColumn: Order_Date
 
 		annotation SummarizationSetBy = Automatic
 
@@ -14,8 +13,7 @@ table 'leaf'
 		dataType: string
 		lineageTag: fd0137f4-7ca3-d5bc-dbc7-c8ae5b255ff7
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Order_ID]
+		sourceColumn: Order_ID
 
 		annotation SummarizationSetBy = Automatic
 
@@ -23,8 +21,7 @@ table 'leaf'
 		dataType: string
 		lineageTag: f2d636dc-195b-eef5-c53d-36abc60bcf29
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Product_Name]
+		sourceColumn: Product_Name
 
 		annotation SummarizationSetBy = Automatic
 
@@ -32,8 +29,7 @@ table 'leaf'
 		dataType: string
 		lineageTag: 866ca65d-a37a-d6ec-dc6a-0c64750c95ef
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Category]
+		sourceColumn: Category
 
 		annotation SummarizationSetBy = Automatic
 
@@ -41,8 +37,7 @@ table 'leaf'
 		dataType: string
 		lineageTag: 80273e8f-bc76-61ae-dc0e-6302f5a2c084
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Region]
+		sourceColumn: Region
 
 		annotation SummarizationSetBy = Automatic
 
@@ -50,8 +45,7 @@ table 'leaf'
 		dataType: double
 		lineageTag: 66cff606-0e23-3b57-4e79-18b2505f5b56
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Sales]
+		sourceColumn: Sales
 
 		annotation SummarizationSetBy = Automatic
 
@@ -59,8 +53,7 @@ table 'leaf'
 		dataType: int64
 		lineageTag: 4b66fca0-9835-ca1a-17d4-0e6af6bc6fb3
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Quantity]
+		sourceColumn: Quantity
 
 		annotation SummarizationSetBy = Automatic
 
@@ -68,8 +61,7 @@ table 'leaf'
 		dataType: double
 		lineageTag: b5900d7a-b85d-3d47-d553-3505992ec204
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Profit]
+		sourceColumn: Profit
 
 		annotation SummarizationSetBy = Automatic
 
@@ -77,8 +69,7 @@ table 'leaf'
 		dataType: string
 		lineageTag: d0ced82e-2078-1c4c-c2f9-acb5840c5cb6
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Customer_Name]
+		sourceColumn: Customer_Name
 
 		annotation SummarizationSetBy = Automatic
 

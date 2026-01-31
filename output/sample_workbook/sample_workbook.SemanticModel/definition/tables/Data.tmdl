@@ -5,8 +5,7 @@ table 'Data'
 		dataType: string
 		lineageTag: afb758a1-3048-e16b-c9cf-f02fab731cd7
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Value]
+		sourceColumn: Value
 
 		annotation SummarizationSetBy = Automatic
 

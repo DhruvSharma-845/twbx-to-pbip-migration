@@ -5,8 +5,7 @@ table 'Default'
 		dataType: dateTime
 		lineageTag: 6a688dad-b3d3-12f9-54e6-35c20bced26a
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Order_Date]
+		sourceColumn: Order_Date
 
 		annotation SummarizationSetBy = Automatic
 
@@ -14,8 +13,7 @@ table 'Default'
 		dataType: string
 		lineageTag: 77dedc89-0a83-bc0a-c547-3172bff7c0c5
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Order_ID]
+		sourceColumn: Order_ID
 
 		annotation SummarizationSetBy = Automatic
 
@@ -23,8 +21,7 @@ table 'Default'
 		dataType: string
 		lineageTag: 7e9ad598-d029-1c82-f8b1-3d97ac545e7f
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Product_Name]
+		sourceColumn: Product_Name
 
 		annotation SummarizationSetBy = Automatic
 
@@ -32,8 +29,7 @@ table 'Default'
 		dataType: string
 		lineageTag: 19160ffd-fb82-3120-6acd-1488e9681900
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Category]
+		sourceColumn: Category
 
 		annotation SummarizationSetBy = Automatic
 
@@ -41,8 +37,7 @@ table 'Default'
 		dataType: string
 		lineageTag: b004ed09-ca06-eecd-c5b9-2321c153083d
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Region]
+		sourceColumn: Region
 
 		annotation SummarizationSetBy = Automatic
 
@@ -50,8 +45,7 @@ table 'Default'
 		dataType: int64
 		lineageTag: 0855160c-5742-2a8f-8045-8a69cfb929a7
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Quantity]
+		sourceColumn: Quantity
 
 		annotation SummarizationSetBy = Automatic
 
@@ -59,8 +53,7 @@ table 'Default'
 		dataType: double
 		lineageTag: c519bc3d-3b9c-5ad9-ec3d-9e854164e9f3
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Profit]
+		sourceColumn: Profit
 
 		annotation SummarizationSetBy = Automatic
 
@@ -68,8 +61,7 @@ table 'Default'
 		dataType: string
 		lineageTag: 7d7bb77a-6313-f934-1137-ac2235fda6f8
 		summarizeBy: none
-		isNameInferredFromValue
-		sourceColumn: [Customer_Name]
+		sourceColumn: Customer_Name
 
 		annotation SummarizationSetBy = Automatic
 
