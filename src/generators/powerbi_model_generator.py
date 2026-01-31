@@ -147,10 +147,15 @@ class PowerBIModelGenerator:
         definition_path = os.path.join(self.output_path, 'definition')
         cultures_path = os.path.join(definition_path, 'cultures')
         tables_path = os.path.join(definition_path, 'tables')
+        pbi_path = os.path.join(self.output_path, '.pbi')
         
         os.makedirs(definition_path, exist_ok=True)
         os.makedirs(cultures_path, exist_ok=True)
         os.makedirs(tables_path, exist_ok=True)
+        os.makedirs(pbi_path, exist_ok=True)
+        
+        # Create .pbi settings files
+        self._generate_pbi_settings(pbi_path)
     
     def _generate_pbism(self):
         """Generate definition.pbism file."""
@@ -179,7 +184,7 @@ class PowerBIModelGenerator:
         content = f"""model Model
 \tculture: {self.model.culture}
 \tdefaultPowerBIDataSourceVersion: powerBI_V3
-\tsourceQueryCulture: en-IN
+\tsourceQueryCulture: en-US
 \tdataAccessOptions
 \t\tlegacyRedirects
 \t\treturnErrorValuesAsNull
@@ -192,9 +197,12 @@ ref cultureInfo {self.model.culture}
 
 """
         
-        # Add table references
+        # Add unique table references (avoid duplicates)
+        seen_tables = set()
         for table in self.model.tables:
-            content += f'ref table {table.name}\n\n'
+            if table.name not in seen_tables:
+                content += f"ref table '{table.name}'\n\n"
+                seen_tables.add(table.name)
         
         model_path = os.path.join(self.output_path, 'definition', 'model.tmdl')
         with open(model_path, 'w', encoding='utf-8') as f:
@@ -204,31 +212,54 @@ ref cultureInfo {self.model.culture}
         """Generate individual table .tmdl files."""
         tables_path = os.path.join(self.output_path, 'definition', 'tables')
         
+        # Track which tables we've already written
+        seen_tables = set()
+        
         for table in self.model.tables:
+            # Skip duplicate tables
+            if table.name in seen_tables:
+                continue
+            seen_tables.add(table.name)
+            
             content = self._generate_table_tmdl(table)
-            table_file = os.path.join(tables_path, f'{table.name}.tmdl')
+            # Sanitize filename
+            safe_name = table.name.replace("'", "").replace('"', '').replace(' ', '_')
+            table_file = os.path.join(tables_path, f'{safe_name}.tmdl')
             with open(table_file, 'w', encoding='utf-8') as f:
                 f.write(content)
     
     def _generate_table_tmdl(self, table: PBITable) -> str:
-        """Generate TMDL content for a single table."""
+        """Generate TMDL content for a single table using calculated table format."""
         lineage_tag = self._generate_lineage_tag(table.name)
         
+        # Use calculated table format - this works without data source
+        # Generate DAX to create an empty table with schema
+        dax_columns = []
+        for col in table.columns:
+            dax_type = self._data_type_to_dax_type(col.data_type)
+            dax_columns.append(f'"{col.name}", {dax_type}')
+        
+        if dax_columns:
+            table_dax = 'DATATABLE(' + ', '.join(dax_columns) + ')'
+        else:
+            table_dax = 'DATATABLE("Value", STRING)'
+        
         lines = [
-            f'table {table.name}',
+            f'table \'{table.name}\'',
             f'\tlineageTag: {lineage_tag}',
             ''
         ]
         
-        # Add columns
+        # Add columns - for calculated table, use isNameInferredFromValue
         for col in table.columns:
             col_lineage = self._generate_lineage_tag(f"{table.name}_{col.name}")
             lines.extend([
-                f'\tcolumn {col.name}',
+                f'\tcolumn \'{col.name}\'',
                 f'\t\tdataType: {col.data_type}',
                 f'\t\tlineageTag: {col_lineage}',
                 f'\t\tsummarizeBy: none',
-                f'\t\tsourceColumn: {col.source_column or col.name}',
+                f'\t\tisNameInferredFromValue',
+                f'\t\tsourceColumn: [{col.source_column or col.name}]',
                 '',
                 f'\t\tannotation SummarizationSetBy = Automatic',
                 ''
@@ -240,19 +271,71 @@ ref cultureInfo {self.model.culture}
             # Clean expression for TMDL (handle multi-line)
             expr = measure.expression.replace('\n', ' ').replace('\t', ' ')
             lines.extend([
-                f'\tmeasure {measure.name} = {expr}',
+                f'\tmeasure \'{measure.name}\' = {expr}',
                 f'\t\tlineageTag: {measure_lineage}',
                 ''
             ])
         
-        # Add placeholder annotation to indicate no data source
+        # Add partition with proper M query format for TMDL
+        lines.append(f'\tpartition \'{table.name}\' = m')
+        lines.append(f'\t\tmode: import')
+        lines.append(f'\t\tsource')
+        lines.append(f'\t\t\tlet')
+        lines.append(f'\t\t\t\tSource = #table(')
+        
+        # Build column type table
+        col_defs = []
+        for col in table.columns:
+            m_type = self._data_type_to_m_type(col.data_type)
+            col_defs.append(f'\t\t\t\t\t{{"{col.name}", {m_type}}}')
+        
+        if col_defs:
+            lines.append(f'\t\t\t\t\t{{')
+            lines.append(',\n'.join(col_defs))
+            lines.append(f'\t\t\t\t\t}},')
+        else:
+            lines.append(f'\t\t\t\t\t{{{{"Value", type text}}}},')
+        
+        lines.append(f'\t\t\t\t\t{{}}')
+        lines.append(f'\t\t\t\t)')
+        lines.append(f'\t\t\tin')
+        lines.append(f'\t\t\t\tSource')
+        lines.append('')
+        
+        # Add annotations
         lines.extend([
-            f'\tannotation PBI_MigrationSource = "Tableau"',
-            f'\tannotation PBI_PlaceholderTable = true',
+            f'\tannotation PBI_NavigationStepName = Source',
+            f'\tannotation PBI_ResultType = Table',
             ''
         ])
         
         return '\n'.join(lines)
+    
+    def _data_type_to_m_type(self, data_type: str) -> str:
+        """Convert Power BI data type to M type."""
+        type_map = {
+            'string': 'type text',
+            'int64': 'Int64.Type',
+            'double': 'type number',
+            'decimal': 'type number',
+            'dateTime': 'type datetime',
+            'boolean': 'type logical',
+            'binary': 'type binary'
+        }
+        return type_map.get(data_type, 'type text')
+    
+    def _data_type_to_dax_type(self, data_type: str) -> str:
+        """Convert Power BI data type to DAX type for DATATABLE."""
+        type_map = {
+            'string': 'STRING',
+            'int64': 'INTEGER',
+            'double': 'DOUBLE',
+            'decimal': 'CURRENCY',
+            'dateTime': 'DATETIME',
+            'boolean': 'BOOLEAN',
+            'binary': 'BINARY'
+        }
+        return type_map.get(data_type, 'STRING')
     
     def _generate_culture_tmdl(self):
         """Generate culture .tmdl file."""
@@ -312,6 +395,24 @@ ref cultureInfo {self.model.culture}
         diagram_path = os.path.join(self.output_path, 'diagramLayout.json')
         with open(diagram_path, 'w', encoding='utf-8') as f:
             json.dump(diagram, f, indent=2)
+    
+    def _generate_pbi_settings(self, pbi_path: str):
+        """Generate .pbi folder settings files."""
+        # localSettings.json
+        local_settings = {
+            "version": "1.0"
+        }
+        local_path = os.path.join(pbi_path, 'localSettings.json')
+        with open(local_path, 'w', encoding='utf-8') as f:
+            json.dump(local_settings, f, indent=2)
+        
+        # editorSettings.json
+        editor_settings = {
+            "tableGroup": {}
+        }
+        editor_path = os.path.join(pbi_path, 'editorSettings.json')
+        with open(editor_path, 'w', encoding='utf-8') as f:
+            json.dump(editor_settings, f, indent=2)
     
     def _generate_lineage_tag(self, name: str) -> str:
         """Generate a deterministic lineage tag UUID."""

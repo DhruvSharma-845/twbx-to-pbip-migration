@@ -1,13 +1,27 @@
-table Data
+table 'Data'
 	lineageTag: f6068daa-29db-b05a-7ead-1e3b5a48bbee
 
-	column Value
+	column 'Value'
 		dataType: string
 		lineageTag: afb758a1-3048-e16b-c9cf-f02fab731cd7
 		summarizeBy: none
-		sourceColumn: Value
+		isNameInferredFromValue
+		sourceColumn: [Value]
 
 		annotation SummarizationSetBy = Automatic
 
-	annotation PBI_MigrationSource = "Tableau"
-	annotation PBI_PlaceholderTable = true
+	partition 'Data' = m
+		mode: import
+		source
+			let
+				Source = #table(
+					{
+					{"Value", type text}
+					},
+					{}
+				)
+			in
+				Source
+
+	annotation PBI_NavigationStepName = Source
+	annotation PBI_ResultType = Table

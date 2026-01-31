@@ -1,77 +1,107 @@
-table leaf
+table 'leaf'
 	lineageTag: bab4ff04-cc14-af66-e4d4-2c85f888cfe6
 
-	column Order_Date
+	column 'Order_Date'
 		dataType: dateTime
 		lineageTag: 74f4ed7f-d556-057c-ad75-6b58daecc059
 		summarizeBy: none
-		sourceColumn: Order_Date
+		isNameInferredFromValue
+		sourceColumn: [Order_Date]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Order_ID
+	column 'Order_ID'
 		dataType: string
 		lineageTag: fd0137f4-7ca3-d5bc-dbc7-c8ae5b255ff7
 		summarizeBy: none
-		sourceColumn: Order_ID
+		isNameInferredFromValue
+		sourceColumn: [Order_ID]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Product_Name
+	column 'Product_Name'
 		dataType: string
 		lineageTag: f2d636dc-195b-eef5-c53d-36abc60bcf29
 		summarizeBy: none
-		sourceColumn: Product_Name
+		isNameInferredFromValue
+		sourceColumn: [Product_Name]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Category
+	column 'Category'
 		dataType: string
 		lineageTag: 866ca65d-a37a-d6ec-dc6a-0c64750c95ef
 		summarizeBy: none
-		sourceColumn: Category
+		isNameInferredFromValue
+		sourceColumn: [Category]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Region
+	column 'Region'
 		dataType: string
 		lineageTag: 80273e8f-bc76-61ae-dc0e-6302f5a2c084
 		summarizeBy: none
-		sourceColumn: Region
+		isNameInferredFromValue
+		sourceColumn: [Region]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Sales
+	column 'Sales'
 		dataType: double
 		lineageTag: 66cff606-0e23-3b57-4e79-18b2505f5b56
 		summarizeBy: none
-		sourceColumn: Sales
+		isNameInferredFromValue
+		sourceColumn: [Sales]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Quantity
+	column 'Quantity'
 		dataType: int64
 		lineageTag: 4b66fca0-9835-ca1a-17d4-0e6af6bc6fb3
 		summarizeBy: none
-		sourceColumn: Quantity
+		isNameInferredFromValue
+		sourceColumn: [Quantity]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Profit
+	column 'Profit'
 		dataType: double
 		lineageTag: b5900d7a-b85d-3d47-d553-3505992ec204
 		summarizeBy: none
-		sourceColumn: Profit
+		isNameInferredFromValue
+		sourceColumn: [Profit]
 
 		annotation SummarizationSetBy = Automatic
 
-	column Customer_Name
+	column 'Customer_Name'
 		dataType: string
 		lineageTag: d0ced82e-2078-1c4c-c2f9-acb5840c5cb6
 		summarizeBy: none
-		sourceColumn: Customer_Name
+		isNameInferredFromValue
+		sourceColumn: [Customer_Name]
 
 		annotation SummarizationSetBy = Automatic
 
-	annotation PBI_MigrationSource = "Tableau"
-	annotation PBI_PlaceholderTable = true
+	partition 'leaf' = m
+		mode: import
+		source
+			let
+				Source = #table(
+					{
+					{"Order_Date", type datetime},
+					{"Order_ID", type text},
+					{"Product_Name", type text},
+					{"Category", type text},
+					{"Region", type text},
+					{"Sales", type number},
+					{"Quantity", Int64.Type},
+					{"Profit", type number},
+					{"Customer_Name", type text}
+					},
+					{}
+				)
+			in
+				Source
+
+	annotation PBI_NavigationStepName = Source
+	annotation PBI_ResultType = Table
