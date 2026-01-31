@@ -4,47 +4,5 @@
   "displayName": "Sales Dashboard",
   "displayOption": "FitToPage",
   "height": 800,
-  "width": 1200,
-  "visualContainers": [
-    {
-      "x": 0,
-      "y": 0,
-      "z": 0,
-      "width": 640,
-      "height": 360,
-      "config": "{\"name\": \"3b6e2723684e5f738e6f05ca56b7f61c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 0, \"y\": 0, \"z\": 0, \"width\": 640, \"height\": 360, \"tabOrder\": 0}}], \"singleVisual\": {\"visualType\": \"clusteredColumnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Sales\"}], \"Series\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Category\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Sales by Category'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Sales\"}, \"Name\": \"Default.Sales\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Category\"}, \"Name\": \"Default.Category\"}]}}}",
-      "filters": "[]",
-      "tabOrder": 0
-    },
-    {
-      "x": 640,
-      "y": 0,
-      "z": 1,
-      "width": 640,
-      "height": 360,
-      "config": "{\"name\": \"6e81bc45a817537ba101c39ccf85235b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 640, \"y\": 0, \"z\": 1, \"width\": 640, \"height\": 360, \"tabOrder\": 1}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Sales\"}], \"Series\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Order_Date\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Sales Trend'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Sales\"}, \"Name\": \"Default.Sales\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Order_Date\"}, \"Name\": \"Default.Order_Date\"}]}}}",
-      "filters": "[]",
-      "tabOrder": 1
-    },
-    {
-      "x": 0,
-      "y": 360,
-      "z": 2,
-      "width": 640,
-      "height": 360,
-      "config": "{\"name\": \"87834106e86850db85f94fa944835484\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 0, \"y\": 360, \"z\": 2, \"width\": 640, \"height\": 360, \"tabOrder\": 2}}], \"singleVisual\": {\"visualType\": \"pieChart\", \"projections\": {\"Category\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Region\"}], \"Y\": [{\"queryRef\": \"Sales\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Regional Performance'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Region\"}, \"Name\": \"Default.Region\"}, {\"Aggregation\": {\"Expression\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Sales\"}, \"Function\": 0}, \"Name\": \"Sum(Default.Sales)\"}]}}}",
-      "filters": "[]",
-      "tabOrder": 2
-    },
-    {
-      "x": 640,
-      "y": 360,
-      "z": 3,
-      "width": 640,
-      "height": 360,
-      "config": "{\"name\": \"6ec7d27a167654b59b4d9545c7b6b2fe\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 640, \"y\": 360, \"z\": 3, \"width\": 640, \"height\": 360, \"tabOrder\": 3}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"federatedsample_data\"}, {\"queryRef\": \"Order_ID\"}]}, \"objects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Sales Details'\"}}}}}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Data\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"federatedsample_data\"}, \"Name\": \"Default.federatedsample_data\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"Order_ID\"}, \"Name\": \"Default.Order_ID\"}]}}}",
-      "filters": "[]",
-      "tabOrder": 3
-    }
-  ]
+  "width": 1200
 }

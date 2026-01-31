@@ -1,0 +1,36 @@
+{
+  "name": "87834106e86850db85f94fa944835484",
+  "position": {
+    "x": 0,
+    "y": 360,
+    "z": 2,
+    "height": 360,
+    "width": 640,
+    "tabOrder": 2
+  },
+  "visual": {
+    "visualType": "pieChart",
+    "objects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Regional Performance'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

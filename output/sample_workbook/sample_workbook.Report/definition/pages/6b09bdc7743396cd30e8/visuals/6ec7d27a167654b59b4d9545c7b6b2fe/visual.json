@@ -1,0 +1,36 @@
+{
+  "name": "6ec7d27a167654b59b4d9545c7b6b2fe",
+  "position": {
+    "x": 640,
+    "y": 360,
+    "z": 3,
+    "height": 360,
+    "width": 640,
+    "tabOrder": 3
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "objects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Sales Details'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
