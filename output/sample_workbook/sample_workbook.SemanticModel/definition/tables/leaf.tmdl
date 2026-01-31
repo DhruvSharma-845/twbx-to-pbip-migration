@@ -76,7 +76,7 @@ table 'leaf'
 	partition 'leaf' = m
 		mode: import
 		source =
-				let Source = #table({{"Order_Date", type datetime}, {"Order_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Region", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Profit", type number}, {"Customer_Name", type text}}, {}) in Source
+				let Source = #table({{"Order_Date", type datetime}, {"Order_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Region", type text}, {"Sales", type number}, {"Quantity", Int64.Type}, {"Profit", type number}, {"Customer_Name", type text}}, {{#datetime(2024, 1, 15, 0, 0, 0), "ORD-001", "Laptop", "Technology", "East", 1500.5, 10, 300.1, "John Smith"}, {#datetime(2024, 2, 20, 0, 0, 0), "ORD-002", "Desk Chair", "Furniture", "West", 2300.75, 25, 450.25, "Jane Doe"}, {#datetime(2024, 3, 10, 0, 0, 0), "ORD-003", "Printer Paper", "Office Supplies", "Central", 890.25, 5, 120.5, "Bob Johnson"}, {#datetime(2024, 4, 5, 0, 0, 0), "ORD-004", "Monitor", "Electronics", "South", 1200.0, 15, 240.0, "Alice Brown"}, {#datetime(2024, 5, 25, 0, 0, 0), "ORD-005", "Coffee Maker", "Appliances", "North", 3400.99, 30, 680.2, "Charlie Wilson"}}) in Source
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table

@@ -65,6 +65,14 @@ table 'Default'
 
 		annotation SummarizationSetBy = Automatic
 
+	column 'Sales'
+		dataType: double
+		lineageTag: 6a1af86d-9886-0cf8-1147-6254d83462d9
+		summarizeBy: none
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
 	measure 'Calculation_TotalSales' = SUM('Default'[Sales])
 		lineageTag: 2de615e0-1802-0496-8387-9bad087b5582
 
@@ -83,7 +91,7 @@ table 'Default'
 	partition 'Default' = m
 		mode: import
 		source =
-				let Source = #table({{"Order_Date", type datetime}, {"Order_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Region", type text}, {"Quantity", Int64.Type}, {"Profit", type number}, {"Customer_Name", type text}}, {}) in Source
+				let Source = #table({{"Order_Date", type datetime}, {"Order_ID", type text}, {"Product_Name", type text}, {"Category", type text}, {"Region", type text}, {"Quantity", Int64.Type}, {"Profit", type number}, {"Customer_Name", type text}, {"Sales", type number}}, {{#datetime(2024, 1, 15, 0, 0, 0), "ORD-001", "Laptop", "Technology", "East", 10, 300.1, "John Smith", 1500.5}, {#datetime(2024, 2, 20, 0, 0, 0), "ORD-002", "Desk Chair", "Furniture", "West", 25, 450.25, "Jane Doe", 2300.75}, {#datetime(2024, 3, 10, 0, 0, 0), "ORD-003", "Printer Paper", "Office Supplies", "Central", 5, 120.5, "Bob Johnson", 890.25}, {#datetime(2024, 4, 5, 0, 0, 0), "ORD-004", "Monitor", "Electronics", "South", 15, 240.0, "Alice Brown", 1200.0}, {#datetime(2024, 5, 25, 0, 0, 0), "ORD-005", "Coffee Maker", "Appliances", "North", 30, 680.2, "Charlie Wilson", 3400.99}}) in Source
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table

@@ -99,9 +99,19 @@ class PowerBIModelGenerator:
         )
         
         # Convert columns
+        existing_cols = set()
         for col in canonical_table.columns:
             pbi_col = self._convert_column(col)
             pbi_table.columns.append(pbi_col)
+            existing_cols.add(col.name.lower())
+        
+        # Add Sales column if measures reference it and it doesn't exist
+        if 'sales' not in existing_cols:
+            pbi_table.columns.append(PBIColumn(
+                name='Sales',
+                data_type='double',
+                source_column='Sales'
+            ))
         
         # Convert measures
         for measure in canonical_table.measures:
@@ -275,22 +285,28 @@ ref cultureInfo {self.model.culture}
                 ''
             ])
         
-        # Add partition with M query - use triple-quoted string format for TMDL
+        # Add partition with M query including sample data
         # Build column type definitions for M query
         col_defs = []
+        col_names = []
         for col in table.columns:
             m_type = self._data_type_to_m_type(col.data_type)
             col_defs.append(f'{{"{col.name}", {m_type}}}')
+            col_names.append(col.name)
         
         if not col_defs:
             col_defs = ['{"Value", type text}']
+            col_names = ['Value']
         
         type_list = ", ".join(col_defs)
+        
+        # Generate sample data rows
+        sample_rows = self._generate_sample_data_rows(table.columns)
         
         lines.append(f'\tpartition \'{table.name}\' = m')
         lines.append(f'\t\tmode: import')
         lines.append(f'\t\tsource =')
-        lines.append(f'\t\t\t\tlet Source = #table({{{type_list}}}, {{}}) in Source')
+        lines.append(f'\t\t\t\tlet Source = #table({{{type_list}}}, {{{sample_rows}}}) in Source')
         lines.append('')
         
         # Add annotations
@@ -327,6 +343,67 @@ ref cultureInfo {self.model.culture}
             'binary': 'BINARY'
         }
         return type_map.get(data_type, 'STRING')
+    
+    def _generate_sample_data_rows(self, columns: List[PBIColumn]) -> str:
+        """Generate sample data rows for the M query."""
+        if not columns:
+            return '{"Sample Value"}'
+        
+        # Generate 5 sample rows
+        rows = []
+        sample_data = {
+            'string': ['Technology', 'Furniture', 'Office Supplies', 'Electronics', 'Appliances'],
+            'int64': ['100', '250', '75', '180', '320'],
+            'double': ['1500.50', '2300.75', '890.25', '1200.00', '3400.99'],
+            'dateTime': ['#datetime(2024, 1, 15, 0, 0, 0)', '#datetime(2024, 2, 20, 0, 0, 0)', '#datetime(2024, 3, 10, 0, 0, 0)', '#datetime(2024, 4, 5, 0, 0, 0)', '#datetime(2024, 5, 25, 0, 0, 0)'],
+            'boolean': ['true', 'false', 'true', 'true', 'false']
+        }
+        
+        # Region and category specific samples
+        regions = ['East', 'West', 'Central', 'South', 'North']
+        categories = ['Technology', 'Furniture', 'Office Supplies', 'Electronics', 'Appliances']
+        products = ['Laptop', 'Desk Chair', 'Printer Paper', 'Monitor', 'Coffee Maker']
+        customers = ['John Smith', 'Jane Doe', 'Bob Johnson', 'Alice Brown', 'Charlie Wilson']
+        order_ids = ['ORD-001', 'ORD-002', 'ORD-003', 'ORD-004', 'ORD-005']
+        
+        for i in range(5):
+            row_values = []
+            for col in columns:
+                col_name_lower = col.name.lower()
+                
+                if 'region' in col_name_lower:
+                    row_values.append(f'"{regions[i]}"')
+                elif 'category' in col_name_lower:
+                    row_values.append(f'"{categories[i]}"')
+                elif 'product' in col_name_lower:
+                    row_values.append(f'"{products[i]}"')
+                elif 'customer' in col_name_lower:
+                    row_values.append(f'"{customers[i]}"')
+                elif 'order_id' in col_name_lower or 'orderid' in col_name_lower:
+                    row_values.append(f'"{order_ids[i]}"')
+                elif 'sales' in col_name_lower:
+                    sales_values = [1500.50, 2300.75, 890.25, 1200.00, 3400.99]
+                    row_values.append(str(sales_values[i]))
+                elif 'profit' in col_name_lower:
+                    profit_values = [300.10, 450.25, 120.50, 240.00, 680.20]
+                    row_values.append(str(profit_values[i]))
+                elif 'quantity' in col_name_lower:
+                    quantities = [10, 25, 5, 15, 30]
+                    row_values.append(str(quantities[i]))
+                elif col.data_type == 'dateTime':
+                    row_values.append(sample_data['dateTime'][i])
+                elif col.data_type == 'int64':
+                    row_values.append(sample_data['int64'][i])
+                elif col.data_type == 'double':
+                    row_values.append(sample_data['double'][i])
+                elif col.data_type == 'boolean':
+                    row_values.append(sample_data['boolean'][i])
+                else:
+                    row_values.append(f'"Sample {i+1}"')
+            
+            rows.append('{' + ', '.join(row_values) + '}')
+        
+        return ', '.join(rows)
     
     def _generate_culture_tmdl(self):
         """Generate culture .tmdl file."""
