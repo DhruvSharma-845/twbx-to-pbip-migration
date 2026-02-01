@@ -73,6 +73,7 @@ class SuperstoreGenerator:
             pbip_dir / f'{self.workbook_name}.SemanticModel',
             pbip_dir / f'{self.workbook_name}.SemanticModel' / 'definition',
             pbip_dir / f'{self.workbook_name}.SemanticModel' / 'definition' / 'tables',
+            pbip_dir / f'{self.workbook_name}.SemanticModel' / 'definition' / 'cultures',
             pbip_dir / f'{self.workbook_name}.SemanticModel' / '.pbi',
             pbip_dir / f'{self.workbook_name}.Report',
             pbip_dir / f'{self.workbook_name}.Report' / 'definition',
@@ -89,9 +90,9 @@ class SuperstoreGenerator:
         tables_dir = definition_dir / 'tables'
         pbi_dir = model_dir / '.pbi'
         
-        # Generate definition.pbism
+        # Generate definition.pbism (version 4.2 for TMDL format)
         pbism = {
-            "version": "1.0",
+            "version": "4.2",
             "settings": {}
         }
         with open(model_dir / 'definition.pbism', 'w') as f:
@@ -127,6 +128,8 @@ annotation __PBI_TimeIntelligenceEnabled = 1
 
 annotation PBI_ProTooling = ["DevMode"]
 
+ref cultureInfo en-US
+
 ref table 'Orders'
 
 ref table 'People'
@@ -135,6 +138,21 @@ ref table 'Returns'
 '''
         with open(definition_dir / 'model.tmdl', 'w') as f:
             f.write(model_content)
+        
+        # Generate cultures/en-US.tmdl
+        cultures_dir = definition_dir / 'cultures'
+        culture_content = '''cultureInfo en-US
+
+\tlinguisticMetadata =
+\t\t\t{
+\t\t\t  "Version": "1.0.0",
+\t\t\t  "Language": "en-US"
+\t\t\t}
+\t\tcontentType: json
+
+'''
+        with open(cultures_dir / 'en-US.tmdl', 'w') as f:
+            f.write(culture_content)
         
         # Generate tables with real data
         self._generate_orders_table(tables_dir, orders_df)

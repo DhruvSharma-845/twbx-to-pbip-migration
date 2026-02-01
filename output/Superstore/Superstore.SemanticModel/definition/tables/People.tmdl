@@ -9,11 +9,11 @@ table 'People' =
 				{"Fred Suzuki", "South"}
 			}
 		)
-	lineageTag: 5380f883-df8a-4357-ab21-fbac24195ee0
+	lineageTag: e724275e-a16f-4ac1-9a44-70f73d9d5f10
 
 	column 'Regional Manager'
 		dataType: string
-		lineageTag: 90568b03-2487-4fb7-ab64-4b7b2955247e
+		lineageTag: 2e9de653-8e9b-4a14-997f-04f292f29bc5
 		summarizeBy: none
 		sourceColumn: Regional Manager
 
@@ -21,7 +21,7 @@ table 'People' =
 
 	column 'Region'
 		dataType: string
-		lineageTag: c3588440-c63f-4776-a1a1-d8767353a36f
+		lineageTag: 00a24d5a-8b49-49f5-9a74-16ce4da6ee64
 		summarizeBy: none
 		sourceColumn: Region
 

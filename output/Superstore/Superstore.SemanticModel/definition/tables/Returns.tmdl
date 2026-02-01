@@ -35,11 +35,11 @@ table 'Returns' =
 				{"US-2022-142769", "Yes"}
 			}
 		)
-	lineageTag: 4bf6cc90-180f-4912-a276-000cad7ba97c
+	lineageTag: c5b894d5-920f-4723-b7a9-c599e0bb285c
 
 	column 'Order ID'
 		dataType: string
-		lineageTag: 980e793b-f2e1-4577-9d2a-3a65ee2df521
+		lineageTag: 94fd0ce1-2a19-4b53-a688-414df4fa4800
 		summarizeBy: none
 		sourceColumn: Order ID
 
@@ -47,7 +47,7 @@ table 'Returns' =
 
 	column 'Returned'
 		dataType: string
-		lineageTag: 424bb8b7-c7a3-402b-b555-1e4281770168
+		lineageTag: 02773f56-b088-456a-87a5-3e9db915103d
 		summarizeBy: none
 		sourceColumn: Returned
 
