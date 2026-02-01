@@ -1,0 +1,31 @@
+table 'People' =
+		DATATABLE(
+			"Regional Manager", STRING,
+			"Region", STRING,
+			{
+				{"Sadie Pawthorne", "West"},
+				{"Chuck Magee", "East"},
+				{"Roxanne Rodriguez", "Central"},
+				{"Fred Suzuki", "South"}
+			}
+		)
+	lineageTag: aa581031-7924-40b9-973d-b1ca59b3909f
+
+	column 'Regional Manager'
+		dataType: string
+		lineageTag: b523e0b4-1077-4dfc-80e8-8d98641bb4e2
+		summarizeBy: none
+		sourceColumn: Regional Manager
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region'
+		dataType: string
+		lineageTag: 8b794c00-2061-4757-a7bf-1e2fc60107e6
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	annotation PBI_NavigationStepName = Source
+	annotation PBI_ResultType = Table

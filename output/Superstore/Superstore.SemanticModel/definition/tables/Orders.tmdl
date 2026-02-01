@@ -1,0 +1,252 @@
+table 'Orders' =
+		DATATABLE(
+			"Row ID", INTEGER,
+			"Order ID", STRING,
+			"Order Date", DATETIME,
+			"Ship Date", DATETIME,
+			"Ship Mode", STRING,
+			"Customer ID", STRING,
+			"Customer Name", STRING,
+			"Segment", STRING,
+			"Country", STRING,
+			"City", STRING,
+			"State", STRING,
+			"Postal Code", STRING,
+			"Region", STRING,
+			"Product ID", STRING,
+			"Category", STRING,
+			"Sub-Category", STRING,
+			"Product Name", STRING,
+			"Sales", DOUBLE,
+			"Quantity", INTEGER,
+			"Discount", DOUBLE,
+			"Profit", DOUBLE,
+			{
+				{1, "US-2022-103800", DATE(2022, 1, 3), DATE(2022, 1, 7), "Standard Class", "DP-13000", "Darren Powers", "Consumer", "United States", "Houston", "Texas", "77095", "Central", "OFF-PA-10000174", "Office Supplies", "Paper", "Message Book, Wirebound, Four 5 1/2"" X 4"" Forms/Pg., 200 Dupl. Sets/Book", 16.45, 2, 0.20, 5.5512},
+				{2, "US-2022-112326", DATE(2022, 1, 4), DATE(2022, 1, 8), "Standard Class", "PO-19195", "Phillina Ober", "Home Office", "United States", "Naperville", "Illinois", "60540", "Central", "OFF-BI-10004094", "Office Supplies", "Binders", "GBC Standard Plastic Binding Systems Combs", 3.54, 2, 0.80, -5.4870},
+				{3, "US-2022-112326", DATE(2022, 1, 4), DATE(2022, 1, 8), "Standard Class", "PO-19195", "Phillina Ober", "Home Office", "United States", "Naperville", "Illinois", "60540", "Central", "OFF-LA-10003223", "Office Supplies", "Labels", "Avery 508", 11.78, 3, 0.20, 4.2717},
+				{4, "US-2022-112326", DATE(2022, 1, 4), DATE(2022, 1, 8), "Standard Class", "PO-19195", "Phillina Ober", "Home Office", "United States", "Naperville", "Illinois", "60540", "Central", "OFF-ST-10002743", "Office Supplies", "Storage", "SAFCO Boltless Steel Shelving", 272.74, 3, 0.20, -64.7748},
+				{5, "US-2022-141817", DATE(2022, 1, 5), DATE(2022, 1, 12), "Standard Class", "MB-18085", "Mick Brown", "Consumer", "United States", "Philadelphia", "Pennsylvania", "19143", "East", "OFF-AR-10003478", "Office Supplies", "Art", "Avery Hi-Liter EverBold Pen Style Fluorescent Highlighters, 4/Pack", 19.54, 3, 0.20, 4.8840},
+				{6, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "FUR-CH-10004063", "Furniture", "Chairs", "Global Deluxe High-Back Manager's Chair", 2573.82, 9, 0.00, 746.4078},
+				{7, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "OFF-AR-10001662", "Office Supplies", "Art", "Rogers Handheld Barrel Pencil Sharpener", 5.48, 2, 0.00, 1.4796},
+				{8, "US-2022-106054", DATE(2022, 1, 6), DATE(2022, 1, 7), "First Class", "JO-15145", "Jack O'Briant", "Corporate", "United States", "Athens", "Georgia", "30605", "South", "OFF-AR-10002399", "Office Supplies", "Art", "Dixon Prang Watercolor Pencils, 10-Color Set with Brush", 12.78, 3, 0.00, 5.2398},
+				{9, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "OFF-BI-10004632", "Office Supplies", "Binders", "Ibico Hi-Tech Manual Binding System", 609.98, 2, 0.00, 274.4910},
+				{10, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "OFF-FA-10001883", "Office Supplies", "Fasteners", "Alliance Super-Size Bands, Assorted Sizes", 31.12, 4, 0.00, 0.3112},
+				{11, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "OFF-PA-10000955", "Office Supplies", "Paper", "Southworth 25% Cotton Granite Paper & Envelopes", 6.54, 1, 0.00, 3.0084},
+				{12, "US-2022-130813", DATE(2022, 1, 6), DATE(2022, 1, 8), "Second Class", "LS-17230", "Lycoris Saunders", "Consumer", "United States", "Los Angeles", "California", "90049", "West", "OFF-PA-10002005", "Office Supplies", "Paper", "Xerox 225", 19.44, 3, 0.00, 9.3312},
+				{13, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "TEC-PH-10004539", "Technology", "Phones", "Wireless Extenders zBoost YX545 SOHO Signal Booster", 755.96, 4, 0.00, 204.1092},
+				{14, "US-2022-167199", DATE(2022, 1, 6), DATE(2022, 1, 10), "Standard Class", "ME-17320", "Maria Etezadi", "Home Office", "United States", "Henderson", "Kentucky", "42420", "South", "TEC-PH-10004977", "Technology", "Phones", "GE 30524EE4", 391.98, 2, 0.00, 113.6742},
+				{15, "US-2022-105417", DATE(2022, 1, 7), DATE(2022, 1, 12), "Standard Class", "VS-21820", "Vivek Sundaresam", "Consumer", "United States", "Huntsville", "Texas", "77340", "Central", "FUR-FU-10004864", "Furniture", "Furnishings", "Howard Miller 14-1/2"" Diameter Chrome Round Wall Clock", 76.73, 3, 0.60, -53.7096},
+				{16, "US-2022-105417", DATE(2022, 1, 7), DATE(2022, 1, 12), "Standard Class", "VS-21820", "Vivek Sundaresam", "Consumer", "United States", "Huntsville", "Texas", "77340", "Central", "OFF-BI-10003708", "Office Supplies", "Binders", "Acco Four Pocket Poly Ring Binder with Label Holder, Smoke, 1""", 10.43, 7, 0.80, -18.2525},
+				{17, "US-2022-135405", DATE(2022, 1, 9), DATE(2022, 1, 13), "Standard Class", "MS-17830", "Melanie Seite", "Consumer", "United States", "Laredo", "Texas", "78041", "Central", "OFF-AR-10004078", "Office Supplies", "Art", "Newell 312", 9.34, 2, 0.20, 1.1680},
+				{18, "US-2022-135405", DATE(2022, 1, 9), DATE(2022, 1, 13), "Standard Class", "MS-17830", "Melanie Seite", "Consumer", "United States", "Laredo", "Texas", "78041", "Central", "TEC-AC-10001266", "Technology", "Accessories", "Memorex Micro Travel Drive 8 GB", 31.20, 3, 0.20, 9.7500},
+				{19, "US-2022-149020", DATE(2022, 1, 10), DATE(2022, 1, 15), "Standard Class", "AJ-10780", "Anthony Jacobs", "Corporate", "United States", "Springfield", "Virginia", "22153", "South", "FUR-FU-10000965", "Furniture", "Furnishings", "Howard Miller 11-1/2"" Diameter Ridgewood Wall Clock", 51.94, 1, 0.00, 21.2954},
+				{20, "US-2022-149020", DATE(2022, 1, 10), DATE(2022, 1, 15), "Standard Class", "AJ-10780", "Anthony Jacobs", "Corporate", "United States", "Springfield", "Virginia", "22153", "South", "OFF-LA-10004272", "Office Supplies", "Labels", "Avery 482", 2.89, 1, 0.00, 1.3583},
+				{21, "US-2022-130092", DATE(2022, 1, 11), DATE(2022, 1, 14), "First Class", "SV-20365", "Seth Vernon", "Consumer", "United States", "Dover", "Delaware", "19901", "East", "FUR-FU-10000010", "Furniture", "Furnishings", "DAX Value U-Channel Document Frames, Easel Back", 9.94, 2, 0.00, 3.0814},
+				{22, "US-2022-157147", DATE(2022, 1, 13), DATE(2022, 1, 18), "Standard Class", "BD-11605", "Brian Dahlen", "Consumer", "United States", "San Francisco", "California", "94109", "West", "FUR-BO-10003034", "Furniture", "Bookcases", "O'Sullivan Elevations Bookcase, Cherry Finish", 334.00, 3, 0.15, 3.9294},
+				{23, "US-2022-109232", DATE(2022, 1, 13), DATE(2022, 1, 16), "Second Class", "ND-18370", "Natalie DeCherney", "Consumer", "United States", "Mount Pleasant", "South Carolina", "29464", "South", "FUR-CH-10000422", "Furniture", "Chairs", "Global Highback Leather Tilter in Burgundy", 545.94, 6, 0.00, 87.3504},
+				{24, "US-2022-157147", DATE(2022, 1, 13), DATE(2022, 1, 18), "Standard Class", "BD-11605", "Brian Dahlen", "Consumer", "United States", "San Francisco", "California", "94109", "West", "OFF-AR-10003514", "Office Supplies", "Art", "4009 Highlighters by Sanford", 19.90, 5, 0.00, 6.5670},
+				{25, "US-2022-118192", DATE(2022, 1, 13), DATE(2022, 1, 18), "Standard Class", "MM-17920", "Michael Moore", "Consumer", "United States", "Newark", "Ohio", "43055", "East", "OFF-BI-10003476", "Office Supplies", "Binders", "Avery Metallic Poly Binders", 3.44, 2, 0.70, -2.5212},
+				{26, "US-2022-162775", DATE(2022, 1, 13), DATE(2022, 1, 15), "Second Class", "CS-12250", "Chris Selesnick", "Corporate", "United States", "Bossier City", "Louisiana", "71111", "South", "OFF-BI-10004187", "Office Supplies", "Binders", "3-ring staple pack", 5.64, 3, 0.00, 2.7072},
+				{27, "US-2022-162775", DATE(2022, 1, 13), DATE(2022, 1, 15), "Second Class", "CS-12250", "Chris Selesnick", "Corporate", "United States", "Bossier City", "Louisiana", "71111", "South", "OFF-EN-10001532", "Office Supplies", "Envelopes", "Brown Kraft Recycled Envelopes", 50.94, 3, 0.00, 25.4700},
+				{28, "US-2022-162775", DATE(2022, 1, 13), DATE(2022, 1, 15), "Second Class", "CS-12250", "Chris Selesnick", "Corporate", "United States", "Bossier City", "Louisiana", "71111", "South", "OFF-EN-10001990", "Office Supplies", "Envelopes", "Staple envelope", 11.36, 2, 0.00, 5.3392},
+				{29, "US-2022-118192", DATE(2022, 1, 13), DATE(2022, 1, 18), "Standard Class", "MM-17920", "Michael Moore", "Consumer", "United States", "Newark", "Ohio", "43055", "East", "OFF-PA-10002947", "Office Supplies", "Paper", "Xerox 1923", 37.41, 7, 0.20, 13.0928},
+				{30, "US-2022-162775", DATE(2022, 1, 13), DATE(2022, 1, 15), "Second Class", "CS-12250", "Chris Selesnick", "Corporate", "United States", "Bossier City", "Louisiana", "71111", "South", "OFF-ST-10000025", "Office Supplies", "Storage", "Fellowes Stor/Drawer Steel Plus Storage Drawers", 572.58, 6, 0.00, 34.3548}
+			}
+		)
+	lineageTag: 8f69bdde-81b4-4484-b30d-746323f39420
+
+	column 'Row ID'
+		dataType: int64
+		lineageTag: 305cb174-b922-4dc9-b1bb-1e4503c6d8f3
+		summarizeBy: none
+		sourceColumn: Row ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order ID'
+		dataType: string
+		lineageTag: c9298c37-1c61-4558-ba7b-297792500d43
+		summarizeBy: none
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Order Date'
+		dataType: dateTime
+		lineageTag: 39b7fc2c-30bc-4277-a585-d5eac42c6b8f
+		summarizeBy: none
+		sourceColumn: Order Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Date'
+		dataType: dateTime
+		lineageTag: 5acf7216-6822-42e6-90f8-bab5c097f423
+		summarizeBy: none
+		sourceColumn: Ship Date
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Ship Mode'
+		dataType: string
+		lineageTag: d303c9f6-a722-449a-b6a2-92cbb3958d0f
+		summarizeBy: none
+		sourceColumn: Ship Mode
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer ID'
+		dataType: string
+		lineageTag: 225c94eb-0393-4be7-8e1d-e6441a33ca52
+		summarizeBy: none
+		sourceColumn: Customer ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Customer Name'
+		dataType: string
+		lineageTag: 145cd8bc-8b64-40d2-9c11-38adf2a1882d
+		summarizeBy: none
+		sourceColumn: Customer Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Segment'
+		dataType: string
+		lineageTag: 20ebd948-e95b-4533-9221-6a1e5faf80e0
+		summarizeBy: none
+		sourceColumn: Segment
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Country'
+		dataType: string
+		lineageTag: 331097e6-dc70-4a92-a941-efbe511ded3b
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'City'
+		dataType: string
+		lineageTag: 49e1a76e-aafe-41c9-b638-636732ad68fb
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'State'
+		dataType: string
+		lineageTag: bb0d31c5-5096-419f-bbe2-bfd72a396b8e
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Postal Code'
+		dataType: string
+		lineageTag: e6a1f1ee-4eb0-4ab5-90c1-cc2935feca96
+		summarizeBy: none
+		sourceColumn: Postal Code
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Region'
+		dataType: string
+		lineageTag: 463c0d62-bb23-4c2b-91ed-489ba3215611
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product ID'
+		dataType: string
+		lineageTag: 1fcdb472-49e1-4ef9-ab6e-07d5778397ea
+		summarizeBy: none
+		sourceColumn: Product ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Category'
+		dataType: string
+		lineageTag: 23e68d45-1078-4afb-88ed-c77732478d94
+		summarizeBy: none
+		sourceColumn: Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sub-Category'
+		dataType: string
+		lineageTag: 239c9f03-7786-4716-8a73-a0ed82dbf0c0
+		summarizeBy: none
+		sourceColumn: Sub-Category
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Product Name'
+		dataType: string
+		lineageTag: 30f35057-42b9-4aca-8936-6df9f430e2a1
+		summarizeBy: none
+		sourceColumn: Product Name
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Sales'
+		dataType: double
+		lineageTag: 5e1336b7-184d-4cc4-ae9e-89573dcf1b60
+		summarizeBy: sum
+		sourceColumn: Sales
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Quantity'
+		dataType: int64
+		lineageTag: 3de8fb4a-1b07-4649-b324-f6fc33cad689
+		summarizeBy: sum
+		sourceColumn: Quantity
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Discount'
+		dataType: double
+		lineageTag: 481620f3-bcfb-4e34-94e5-b34d9217eab3
+		summarizeBy: none
+		sourceColumn: Discount
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Profit'
+		dataType: double
+		lineageTag: ab557ffc-f191-460f-a186-548622d05865
+		summarizeBy: sum
+		sourceColumn: Profit
+
+		annotation SummarizationSetBy = Automatic
+
+	measure 'Total Sales' = SUM('Orders'[Sales])
+		lineageTag: ecae4886-867b-49df-9c4c-b0b0157f1745
+		formatString: "$#,##0.00"
+
+	measure 'Total Profit' = SUM('Orders'[Profit])
+		lineageTag: 14206879-947f-47b0-bb40-b1c88a6fa959
+		formatString: "$#,##0.00"
+
+	measure 'Total Quantity' = SUM('Orders'[Quantity])
+		lineageTag: cead303e-72a4-47d9-bc2a-957b31c5eafa
+		formatString: "#,##0"
+
+	measure 'Profit Ratio' = DIVIDE(SUM('Orders'[Profit]), SUM('Orders'[Sales]), 0)
+		lineageTag: 030ef147-f54f-4c0c-86a0-7debab220774
+		formatString: "0.00%"
+
+	measure 'Avg Discount' = AVERAGE('Orders'[Discount])
+		lineageTag: 026710b6-4c53-425e-b464-2ba64c8d78bf
+		formatString: "0.00%"
+
+	measure 'Order Count' = DISTINCTCOUNT('Orders'[Order ID])
+		lineageTag: 60acc15d-d91d-49a4-bc4b-93625aa6d369
+		formatString: "#,##0"
+
+	annotation PBI_NavigationStepName = Source
+	annotation PBI_ResultType = Table

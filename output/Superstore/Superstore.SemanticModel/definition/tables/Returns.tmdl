@@ -1,0 +1,57 @@
+table 'Returns' =
+		DATATABLE(
+			"Order ID", STRING,
+			"Returned", STRING,
+			{
+				{"US-2022-100762", "Yes"},
+				{"US-2022-100867", "Yes"},
+				{"US-2022-102652", "Yes"},
+				{"US-2022-103373", "Yes"},
+				{"US-2022-103744", "Yes"},
+				{"US-2022-103940", "Yes"},
+				{"US-2022-104829", "Yes"},
+				{"US-2022-105270", "Yes"},
+				{"US-2022-108609", "Yes"},
+				{"US-2022-108861", "Yes"},
+				{"US-2022-109918", "Yes"},
+				{"US-2022-110786", "Yes"},
+				{"US-2022-111871", "Yes"},
+				{"US-2022-116785", "Yes"},
+				{"US-2022-123225", "Yes"},
+				{"US-2022-123253", "Yes"},
+				{"US-2022-123498", "Yes"},
+				{"US-2022-124688", "Yes"},
+				{"US-2022-126361", "Yes"},
+				{"US-2022-126403", "Yes"},
+				{"US-2022-126522", "Yes"},
+				{"US-2022-127012", "Yes"},
+				{"US-2022-127131", "Yes"},
+				{"US-2022-133690", "Yes"},
+				{"US-2022-134726", "Yes"},
+				{"US-2022-135657", "Yes"},
+				{"US-2022-135699", "Yes"},
+				{"US-2022-140816", "Yes"},
+				{"US-2022-141726", "Yes"},
+				{"US-2022-142769", "Yes"}
+			}
+		)
+	lineageTag: 33ee1d4d-9b48-413b-9156-a4cbd3a782e4
+
+	column 'Order ID'
+		dataType: string
+		lineageTag: 84688369-b187-471c-9f3f-9075b3d9127a
+		summarizeBy: none
+		sourceColumn: Order ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column 'Returned'
+		dataType: string
+		lineageTag: ed927dc3-c724-43b9-ae62-214ffbe57065
+		summarizeBy: none
+		sourceColumn: Returned
+
+		annotation SummarizationSetBy = Automatic
+
+	annotation PBI_NavigationStepName = Source
+	annotation PBI_ResultType = Table
