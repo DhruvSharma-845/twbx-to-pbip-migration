@@ -1,19 +1,9 @@
-table 'People' =
-		DATATABLE(
-			"Regional Manager", STRING,
-			"Region", STRING,
-			{
-				{"Sadie Pawthorne", "West"},
-				{"Chuck Magee", "East"},
-				{"Roxanne Rodriguez", "Central"},
-				{"Fred Suzuki", "South"}
-			}
-		)
-	lineageTag: e724275e-a16f-4ac1-9a44-70f73d9d5f10
+table 'People'
+	lineageTag: 8bc8e2fd-2cac-4c73-b6d1-462aab1e5627
 
 	column 'Regional Manager'
 		dataType: string
-		lineageTag: 2e9de653-8e9b-4a14-997f-04f292f29bc5
+		lineageTag: 690c733d-f631-4f0f-a9d1-f926040b0130
 		summarizeBy: none
 		sourceColumn: Regional Manager
 
@@ -21,11 +11,29 @@ table 'People' =
 
 	column 'Region'
 		dataType: string
-		lineageTag: 00a24d5a-8b49-49f5-9a74-16ce4da6ee64
+		lineageTag: 9a11ad9f-f033-4e6d-a3e7-2563b0a0cc53
 		summarizeBy: none
 		sourceColumn: Region
 
 		annotation SummarizationSetBy = Automatic
+
+	partition 'People' = m
+		mode: import
+		source =
+			```
+			let
+				Source = #table(
+					type table [#"Regional Manager" = text, #"Region" = text],
+					{
+						{"Sadie Pawthorne", "West"},
+						{"Chuck Magee", "East"},
+						{"Roxanne Rodriguez", "Central"},
+						{"Fred Suzuki", "South"}
+					}
+				)
+			in
+				Source
+			```
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table

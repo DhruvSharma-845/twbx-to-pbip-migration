@@ -1,45 +1,9 @@
-table 'Returns' =
-		DATATABLE(
-			"Order ID", STRING,
-			"Returned", STRING,
-			{
-				{"US-2022-100762", "Yes"},
-				{"US-2022-100867", "Yes"},
-				{"US-2022-102652", "Yes"},
-				{"US-2022-103373", "Yes"},
-				{"US-2022-103744", "Yes"},
-				{"US-2022-103940", "Yes"},
-				{"US-2022-104829", "Yes"},
-				{"US-2022-105270", "Yes"},
-				{"US-2022-108609", "Yes"},
-				{"US-2022-108861", "Yes"},
-				{"US-2022-109918", "Yes"},
-				{"US-2022-110786", "Yes"},
-				{"US-2022-111871", "Yes"},
-				{"US-2022-116785", "Yes"},
-				{"US-2022-123225", "Yes"},
-				{"US-2022-123253", "Yes"},
-				{"US-2022-123498", "Yes"},
-				{"US-2022-124688", "Yes"},
-				{"US-2022-126361", "Yes"},
-				{"US-2022-126403", "Yes"},
-				{"US-2022-126522", "Yes"},
-				{"US-2022-127012", "Yes"},
-				{"US-2022-127131", "Yes"},
-				{"US-2022-133690", "Yes"},
-				{"US-2022-134726", "Yes"},
-				{"US-2022-135657", "Yes"},
-				{"US-2022-135699", "Yes"},
-				{"US-2022-140816", "Yes"},
-				{"US-2022-141726", "Yes"},
-				{"US-2022-142769", "Yes"}
-			}
-		)
-	lineageTag: c5b894d5-920f-4723-b7a9-c599e0bb285c
+table 'Returns'
+	lineageTag: eb0ce470-26d7-4ec1-850a-79d947fad898
 
 	column 'Order ID'
 		dataType: string
-		lineageTag: 94fd0ce1-2a19-4b53-a688-414df4fa4800
+		lineageTag: ad439fa0-1df5-46bf-b3f7-e3030137110f
 		summarizeBy: none
 		sourceColumn: Order ID
 
@@ -47,11 +11,55 @@ table 'Returns' =
 
 	column 'Returned'
 		dataType: string
-		lineageTag: 02773f56-b088-456a-87a5-3e9db915103d
+		lineageTag: 21d7ee11-7e40-4d9a-a432-98a8a9b32605
 		summarizeBy: none
 		sourceColumn: Returned
 
 		annotation SummarizationSetBy = Automatic
+
+	partition 'Returns' = m
+		mode: import
+		source =
+			```
+			let
+				Source = #table(
+					type table [#"Order ID" = text, #"Returned" = text],
+					{
+						{"US-2022-100762", "Yes"},
+						{"US-2022-100867", "Yes"},
+						{"US-2022-102652", "Yes"},
+						{"US-2022-103373", "Yes"},
+						{"US-2022-103744", "Yes"},
+						{"US-2022-103940", "Yes"},
+						{"US-2022-104829", "Yes"},
+						{"US-2022-105270", "Yes"},
+						{"US-2022-108609", "Yes"},
+						{"US-2022-108861", "Yes"},
+						{"US-2022-109918", "Yes"},
+						{"US-2022-110786", "Yes"},
+						{"US-2022-111871", "Yes"},
+						{"US-2022-116785", "Yes"},
+						{"US-2022-123225", "Yes"},
+						{"US-2022-123253", "Yes"},
+						{"US-2022-123498", "Yes"},
+						{"US-2022-124688", "Yes"},
+						{"US-2022-126361", "Yes"},
+						{"US-2022-126403", "Yes"},
+						{"US-2022-126522", "Yes"},
+						{"US-2022-127012", "Yes"},
+						{"US-2022-127131", "Yes"},
+						{"US-2022-133690", "Yes"},
+						{"US-2022-134726", "Yes"},
+						{"US-2022-135657", "Yes"},
+						{"US-2022-135699", "Yes"},
+						{"US-2022-140816", "Yes"},
+						{"US-2022-141726", "Yes"},
+						{"US-2022-142769", "Yes"}
+					}
+				)
+			in
+				Source
+			```
 
 	annotation PBI_NavigationStepName = Source
 	annotation PBI_ResultType = Table

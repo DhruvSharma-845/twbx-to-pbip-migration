@@ -164,40 +164,14 @@ ref table 'Returns'
             json.dump({"version": "1.0", "diagrams": []}, f, indent=2)
     
     def _generate_orders_table(self, tables_dir: Path, df: pd.DataFrame):
-        """Generate Orders table as a calculated table with DAX DATATABLE."""
+        """Generate Orders table with embedded data using partition."""
         # Take first 30 rows for sample data (keep it manageable)
         sample_df = df.head(30)
         
-        # Generate DAX DATATABLE expression
-        dax_rows = self._generate_orders_dax_rows(sample_df)
+        # Generate M query rows
+        m_rows = self._generate_orders_m_rows(sample_df)
         
-        content = f'''table 'Orders' =
-\t\tDATATABLE(
-\t\t\t"Row ID", INTEGER,
-\t\t\t"Order ID", STRING,
-\t\t\t"Order Date", DATETIME,
-\t\t\t"Ship Date", DATETIME,
-\t\t\t"Ship Mode", STRING,
-\t\t\t"Customer ID", STRING,
-\t\t\t"Customer Name", STRING,
-\t\t\t"Segment", STRING,
-\t\t\t"Country", STRING,
-\t\t\t"City", STRING,
-\t\t\t"State", STRING,
-\t\t\t"Postal Code", STRING,
-\t\t\t"Region", STRING,
-\t\t\t"Product ID", STRING,
-\t\t\t"Category", STRING,
-\t\t\t"Sub-Category", STRING,
-\t\t\t"Product Name", STRING,
-\t\t\t"Sales", DOUBLE,
-\t\t\t"Quantity", INTEGER,
-\t\t\t"Discount", DOUBLE,
-\t\t\t"Profit", DOUBLE,
-\t\t\t{{
-{dax_rows}
-\t\t\t}}
-\t\t)
+        content = f'''table 'Orders'
 \tlineageTag: {str(uuid.uuid4())}
 
 \tcolumn 'Row ID'
@@ -392,6 +366,43 @@ ref table 'Returns'
 \t\tlineageTag: {str(uuid.uuid4())}
 \t\tformatString: "#,##0"
 
+\tpartition 'Orders' = m
+\t\tmode: import
+\t\tsource =
+\t\t\t```
+\t\t\tlet
+\t\t\t\tSource = #table(
+\t\t\t\t\ttype table [
+\t\t\t\t\t\t#"Row ID" = Int64.Type,
+\t\t\t\t\t\t#"Order ID" = text,
+\t\t\t\t\t\t#"Order Date" = datetime,
+\t\t\t\t\t\t#"Ship Date" = datetime,
+\t\t\t\t\t\t#"Ship Mode" = text,
+\t\t\t\t\t\t#"Customer ID" = text,
+\t\t\t\t\t\t#"Customer Name" = text,
+\t\t\t\t\t\t#"Segment" = text,
+\t\t\t\t\t\t#"Country" = text,
+\t\t\t\t\t\t#"City" = text,
+\t\t\t\t\t\t#"State" = text,
+\t\t\t\t\t\t#"Postal Code" = text,
+\t\t\t\t\t\t#"Region" = text,
+\t\t\t\t\t\t#"Product ID" = text,
+\t\t\t\t\t\t#"Category" = text,
+\t\t\t\t\t\t#"Sub-Category" = text,
+\t\t\t\t\t\t#"Product Name" = text,
+\t\t\t\t\t\t#"Sales" = number,
+\t\t\t\t\t\t#"Quantity" = Int64.Type,
+\t\t\t\t\t\t#"Discount" = number,
+\t\t\t\t\t\t#"Profit" = number
+\t\t\t\t\t],
+\t\t\t\t\t{{
+{m_rows}
+\t\t\t\t\t}}
+\t\t\t\t)
+\t\t\tin
+\t\t\t\tSource
+\t\t\t```
+
 \tannotation PBI_NavigationStepName = Source
 \tannotation PBI_ResultType = Table
 '''
@@ -399,15 +410,15 @@ ref table 'Returns'
         with open(tables_dir / 'Orders.tmdl', 'w') as f:
             f.write(content)
     
-    def _generate_orders_dax_rows(self, df: pd.DataFrame) -> str:
-        """Generate DAX DATATABLE rows with real order data."""
+    def _generate_orders_m_rows(self, df: pd.DataFrame) -> str:
+        """Generate M query rows with real order data."""
         rows = []
         for _, row in df.iterrows():
-            # Format dates for DAX DATE function
-            order_date = f'DATE({row["Order Date"].year}, {row["Order Date"].month}, {row["Order Date"].day})'
-            ship_date = f'DATE({row["Ship Date"].year}, {row["Ship Date"].month}, {row["Ship Date"].day})'
+            # Format dates for M #datetime function
+            order_date = f'#datetime({row["Order Date"].year}, {row["Order Date"].month}, {row["Order Date"].day}, 0, 0, 0)'
+            ship_date = f'#datetime({row["Ship Date"].year}, {row["Ship Date"].month}, {row["Ship Date"].day}, 0, 0, 0)'
             
-            # Escape quotes in strings (double quotes become double-double quotes in DAX)
+            # Escape quotes in strings (double quotes become double-double quotes in M)
             product_name = str(row['Product Name']).replace('"', '""')
             customer_name = str(row['Customer Name']).replace('"', '""')
             city = str(row['City']).replace('"', '""')
@@ -415,7 +426,7 @@ ref table 'Returns'
             postal_code = str(int(row['Postal Code'])) if pd.notna(row['Postal Code']) else ""
             
             row_data = (
-                f'\t\t\t\t{{{int(row["Row ID"])}, '
+                f'\t\t\t\t\t\t{{{int(row["Row ID"])}, '
                 f'"{row["Order ID"]}", '
                 f'{order_date}, '
                 f'{ship_date}, '
@@ -442,21 +453,14 @@ ref table 'Returns'
         return ',\n'.join(rows)
     
     def _generate_people_table(self, tables_dir: Path, df: pd.DataFrame):
-        """Generate People table using DAX DATATABLE."""
-        # Generate DAX DATATABLE rows
+        """Generate People table using M partition."""
+        # Generate M query rows
         rows = []
         for _, row in df.iterrows():
-            rows.append(f'\t\t\t\t{{"{row["Regional Manager"]}", "{row["Region"]}"}}')
-        dax_rows = ',\n'.join(rows)
+            rows.append(f'\t\t\t\t\t\t{{"{row["Regional Manager"]}", "{row["Region"]}"}}')
+        m_rows = ',\n'.join(rows)
         
-        content = f'''table 'People' =
-\t\tDATATABLE(
-\t\t\t"Regional Manager", STRING,
-\t\t\t"Region", STRING,
-\t\t\t{{
-{dax_rows}
-\t\t\t}}
-\t\t)
+        content = f'''table 'People'
 \tlineageTag: {str(uuid.uuid4())}
 
 \tcolumn 'Regional Manager'
@@ -475,6 +479,21 @@ ref table 'Returns'
 
 \t\tannotation SummarizationSetBy = Automatic
 
+\tpartition 'People' = m
+\t\tmode: import
+\t\tsource =
+\t\t\t```
+\t\t\tlet
+\t\t\t\tSource = #table(
+\t\t\t\t\ttype table [#"Regional Manager" = text, #"Region" = text],
+\t\t\t\t\t{{
+{m_rows}
+\t\t\t\t\t}}
+\t\t\t\t)
+\t\t\tin
+\t\t\t\tSource
+\t\t\t```
+
 \tannotation PBI_NavigationStepName = Source
 \tannotation PBI_ResultType = Table
 '''
@@ -483,23 +502,16 @@ ref table 'Returns'
             f.write(content)
     
     def _generate_returns_table(self, tables_dir: Path, df: pd.DataFrame):
-        """Generate Returns table using DAX DATATABLE."""
+        """Generate Returns table using M partition."""
         sample_df = df.head(30)
         
-        # Generate DAX DATATABLE rows
+        # Generate M query rows
         rows = []
         for _, row in sample_df.iterrows():
-            rows.append(f'\t\t\t\t{{"{row["Order ID"]}", "{row["Returned"]}"}}')
-        dax_rows = ',\n'.join(rows)
+            rows.append(f'\t\t\t\t\t\t{{"{row["Order ID"]}", "{row["Returned"]}"}}')
+        m_rows = ',\n'.join(rows)
         
-        content = f'''table 'Returns' =
-\t\tDATATABLE(
-\t\t\t"Order ID", STRING,
-\t\t\t"Returned", STRING,
-\t\t\t{{
-{dax_rows}
-\t\t\t}}
-\t\t)
+        content = f'''table 'Returns'
 \tlineageTag: {str(uuid.uuid4())}
 
 \tcolumn 'Order ID'
@@ -517,6 +529,21 @@ ref table 'Returns'
 \t\tsourceColumn: Returned
 
 \t\tannotation SummarizationSetBy = Automatic
+
+\tpartition 'Returns' = m
+\t\tmode: import
+\t\tsource =
+\t\t\t```
+\t\t\tlet
+\t\t\t\tSource = #table(
+\t\t\t\t\ttype table [#"Order ID" = text, #"Returned" = text],
+\t\t\t\t\t{{
+{m_rows}
+\t\t\t\t\t}}
+\t\t\t\t)
+\t\t\tin
+\t\t\t\tSource
+\t\t\t```
 
 \tannotation PBI_NavigationStepName = Source
 \tannotation PBI_ResultType = Table
