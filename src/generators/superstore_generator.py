@@ -99,7 +99,7 @@ class SuperstoreGenerator:
         
         # Generate .pbi files
         with open(pbi_dir / 'localSettings.json', 'w') as f:
-            json.dump({}, f, indent=2)
+            json.dump({"version": "1.0"}, f, indent=2)
         
         with open(pbi_dir / 'editorSettings.json', 'w') as f:
             json.dump({
@@ -528,7 +528,7 @@ ref table 'Returns'
         
         # Generate .pbi files
         with open(pbi_dir / 'localSettings.json', 'w') as f:
-            json.dump({}, f)
+            json.dump({"version": "1.0"}, f, indent=2)
         
         # Generate report.json
         report_json = {
